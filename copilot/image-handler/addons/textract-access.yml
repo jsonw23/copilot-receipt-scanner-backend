@@ -1,0 +1,61 @@
+Parameters:
+  App:
+    Type: String
+    Description: Your application's name.
+  Env:
+    Type: String
+    Description: The environment name your service, job, or workflow is being deployed to.
+  Name:
+    Type: String
+    Description: The name of the service, job, or workflow being deployed.
+
+Mappings:
+  BucketMap:
+    test:
+      Bucket: "receipt-scanner-test-api-add-receiptuploadsbucket-1c58e3qvmfxbs"
+
+Resources:
+  receiptuploadsAccessPolicy:
+    Metadata:
+      'aws:copilot:description': 'An IAM ManagedPolicy for your service to access the receipt-uploads bucket'
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: S3ObjectActions
+            Effect: Allow
+            Action:
+              - s3:GetObject
+            Resource: !Sub 
+              - "arn:aws:s3:::${Bucket}/*"
+              - Bucket: !FindInMap [BucketMap, "test", "Bucket"]
+          - Sid: S3ListAction
+            Effect: Allow
+            Action: s3:ListBucket
+            Resource: !Sub
+              - "arn:aws:s3:::${Bucket}"
+              - Bucket: !FindInMap [BucketMap, "test", "Bucket"]
+  
+  textractAccessPolicy:
+    Metadata:
+      'aws:copilot:description': 'An IAM ManagedPolicy for your service to access textract'
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: TextractDetectDocumentText
+            Effect: Allow
+            Action:
+              - textract:DetectDocumentText
+            Resource: "*"
+
+Outputs:
+  receiptuploadsAccessPolicy:
+    Description: "The IAM::ManagedPolicy to attach to the task role"
+    Value: !Ref receiptuploadsAccessPolicy
+  textractAccessPolicy:
+    Value: !Ref textractAccessPolicy
+  receiptUploadBucket:
+    Value: !FindInMap [BucketMap, "test", "Bucket"]

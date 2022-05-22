@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "copilot-receipt-scanner",
+			"path": "../copilot-receipt-scanner"
+		},
+		{
+			"name": "copilot-receipt-scanner-backend",
+			"path": "."
+		}
+	],
+	"settings": {}
+}

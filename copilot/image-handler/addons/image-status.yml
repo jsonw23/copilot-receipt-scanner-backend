@@ -1,0 +1,44 @@
+Parameters:
+  App:
+    Type: String
+    Description: Your application's name.
+  Env:
+    Type: String
+    Description: The environment name your service, job, or workflow is being deployed to.
+  Name:
+    Type: String
+    Description: The name of the service, job, or workflow being deployed.
+
+Mappings:
+  EndpointMap: # put the public URL for the API with the /imageStatus endpoint here for each copilot env
+    test:
+      Url: http://recei-Publi-G8QI2AGV7FSW-737618951.us-east-1.elb.amazonaws.com/imageStatus
+      Protocol: "http"
+
+Resources:
+  imageStatusSNSTopic:
+    Metadata:
+      'aws:copilot:description': 'A SNS topic to broadcast image status events'
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub '${AWS::StackName}-imageStatus'
+      KmsMasterKeyId: 'alias/aws/sns'
+      Subscription: # push sns messages to an API endpoint
+        - Endpoint: !FindInMap [EndpointMap, !Ref Env, Url]
+          Protocol: !FindInMap [EndpointMap, !Ref Env, Protocol]
+  imageStatusSNSAccessPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: 'Allow'
+            Action: 'sns:Publish'
+            Resource:
+              - !Ref imageStatusSNSTopic
+
+Outputs:
+  ImageStatusAccessPolicy:
+    Value: !Ref imageStatusSNSAccessPolicy
+  ImageStatusSNSTopic:
+    Value: !Ref imageStatusSNSTopic
