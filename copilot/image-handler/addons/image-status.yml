@@ -12,7 +12,7 @@ Parameters:
 Mappings:
   EndpointMap: # put the public URL for the API with the /imageStatus endpoint here for each copilot env
     test:
-      Url: http://recei-Publi-G8QI2AGV7FSW-737618951.us-east-1.elb.amazonaws.com/imageStatus
+      Url: http://recei-Publi-1DR9OIAEWUEH7-544478233.us-east-1.elb.amazonaws.com/imageStatus
       Protocol: "http"
 
 Resources:

@@ -12,7 +12,7 @@ Parameters:
 Mappings:
   BucketMap:
     test:
-      Bucket: "receipt-scanner-test-api-add-receiptuploadsbucket-1c58e3qvmfxbs"
+      Bucket: "receipt-scanner-test-api-add-receiptuploadsbucket-1xzd6ldr3aduk"
 
 Resources:
   receiptuploadsAccessPolicy:
