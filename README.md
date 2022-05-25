@@ -1,5 +1,5 @@
 # AWS Copilot Sample Application - Receipt Scanner
-This is the back-end worker service for my receipt scanner copilot sample application.  This needs some configuration from `copilot-receipt-scanner` before it can be deployed, since Copilot doesn't support cross-stack dependency injection.
+This is the back-end worker service for my receipt scanner copilot sample application.  This needs some configuration from [copilot-receipt-scanner](https://github.com/jsonw23/copilot-receipt-scanner) before it can be deployed, since Copilot doesn't support cross-stack dependency injection.
 
 ## Installation
 To install this on your AWS account, you'll need:
